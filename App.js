@@ -7,9 +7,15 @@ import thunk from 'redux-thunk';
 import reducer from './reducers';
 import Deck from './components/Deck';
 import { lightBlue } from './utils/colors';
+import { setLocalNotification } from './utils/notifications';
 import Router from './router'
 
 export default class App extends React.Component {
+  
+  componentDidMount () {
+    setLocalNotification();
+  }
+
   render() {
     const store = createStore(reducer, {}, applyMiddleware(thunk));
     return (

@@ -25,9 +25,10 @@ class Deck extends Component {
         <View style={{marginTop:40}}>
           <TouchableHighlight
             style={[styles.button, {borderWidth: 2, borderColor: purple}]}
-            onPress={() =>{
-              console.log('webos');
-            }}
+            onPress={() =>navigation.navigate(
+              'AddCard',
+              {deck}
+            )}
           >
             <Text style={{fontSize:20, color: purple}}>
               Add Card

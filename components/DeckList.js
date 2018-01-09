@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, FlatList } from 'react-native';
+import { View, StyleSheet, Text, FlatList, TouchableHighlight } from 'react-native';
 import { AppLoading } from 'expo';
 import { connect } from 'react-redux';
 import { receiveDecks } from '../actions';
 import { getDecks } from '../utils/api';
-import _ from 'lodash';
 import TopDeck from './TopDeck';
 
 class DeckList extends Component {
@@ -41,6 +40,7 @@ class DeckList extends Component {
       <View style={styles.deck}>
         <FlatList
           data={this.props.decks}
+          keyExtractor={(item, index) => index}
           renderItem={({ item }) => (
             <TopDeck deck={item} navigation={navigation}/>
           )}

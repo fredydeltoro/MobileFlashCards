@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Button, Text } from 'react-native';
-import { green, red, white, purple, orange } from '../utils/colors';
+import { View, StyleSheet, Text } from 'react-native';
+import { Button } from 'react-native-elements';
+import { green, red, white, purple } from '../utils/colors';
+import { clearLocalNotification, setLocalNotification } from '../utils/notifications';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation'
 
@@ -52,6 +54,10 @@ class Quiz extends Component {
     });
   }
 
+  componentDidMount() {
+    clearLocalNotification().then(setLocalNotification);
+  }
+
 
   render() {
     const navigation = this.props.navigation;
@@ -59,14 +65,15 @@ class Quiz extends Component {
     const { currentIndex, showAnswer } = this.state;
 
     return (
-      <View style={styles.container}>
+      <View style={{flex:1, backgroundColor:white}}>
         {
           currentIndex === questions.length ?
-          <View>
-            <Text>You had {this.state.right} of {questions.length} correct answers</Text>
+          <View style={[styles.container, {marginTop:140}]}>
+            <Text style={{fontWeight:'bold', fontSize:25}}>You had {this.state.right} of {questions.length} correct answers</Text>
             <Button
               title='Take again?'
               onPress={this.resetQuiz}
+              style={{marginTop:10}}
             />
             <Button
               title='Go decks'
@@ -79,31 +86,36 @@ class Quiz extends Component {
                 })
                 navigation.dispatch(resetAction)
               }}
+              style={{marginTop:10}}
             />
           </View> :
 
           <View>
-            <Text>{currentIndex + 1} / {questions.length} </Text>
-            <Text>
-              {
-                showAnswer ?
-                  questions[currentIndex].answer :
-                  questions[currentIndex].question
-              }
-            </Text>
+            <Text style={{fontWeight:'bold', fontSize:18, marginTop:10, padding:10}}>{currentIndex + 1} / {questions.length} </Text>
+            <View style={[styles.container, {marginTop:10, marginBottom:120, padding:10}]}>
+              <Text style={{fontWeight:'bold', fontSize:25}}>
+                {
+                  showAnswer ?
+                    questions[currentIndex].answer :
+                    questions[currentIndex].question
+                }
+              </Text>
+            </View>
             <Button
               title={showAnswer ? 'Hide Answer' : 'Show Answer'}
-              backgroundColor={orange}
+              backgroundColor={purple}
               onPress={this.toggleAnswer}
             />
             <Button
               title='Correct'
               backgroundColor={green}
+              style={{marginTop:10}}
               onPress={this.rightAnswer}
             />
             <Button
               title='Incorrect'
               backgroundColor={red}
+              style={{marginTop:10}}
               onPress={this.incorrectAnswer}
             />
           </View>
