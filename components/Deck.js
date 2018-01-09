@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
 import { white, gray, blue, purple } from '../utils/colors';
+import { connect } from 'react-redux';
 
 class Deck extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -11,7 +12,7 @@ class Deck extends Component {
 
   render() {
     const navigation = this.props.navigation;
-    const deck = navigation.state.params.deck;
+    const deck = this.props.deck;
     return(
       <View style={styles.deck}>
         <View style={{marginTop:100}}>
@@ -74,4 +75,12 @@ const styles = StyleSheet.create({
 })
 
 
-export default Deck;
+function mapStateToProps(state, { navigation }) {
+  const { deck } = navigation.state.params;
+  return {
+    deck: state[deck.title],
+  }
+}
+
+
+export default connect(mapStateToProps)(Deck);

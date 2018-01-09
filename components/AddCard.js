@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text, Keyboard, KeyboardAvoidingView } from 'react-native';
 import { FormLabel, FormInput, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation'
 import { blue } from '../utils/colors';
 import { addQuestionToDeck } from '../actions';
 
@@ -27,11 +28,18 @@ class AddCard extends Component{
   submit = () => {
     const { navigation } = this.props;
     const { question, answer } = this.state;
-    const title = navigation.state.params.deck.title;
+    const deck = navigation.state.params.deck;
     Keyboard.dismiss();
-    this.props.dispatch(addQuestionToDeck(title, {question, answer}))
+    this.props.dispatch(addQuestionToDeck(deck.title, {question, answer}))
       .then(() => {
-        navigation.goBack();
+        const resetAction = NavigationActions.reset({
+          index: 1,
+          actions: [
+            NavigationActions.navigate({ routeName: 'Home' }),
+            NavigationActions.navigate({ routeName: 'Deck', params:{deck} })
+          ]
+        })
+        navigation.dispatch(resetAction)
       })
   }
 
