@@ -9,6 +9,12 @@ import TopDeck from './TopDeck';
 
 class DeckList extends Component {
 
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Decks'
+    }
+  }
+
   state = {
     isReady: false,
   }
@@ -36,7 +42,7 @@ class DeckList extends Component {
         <FlatList
           data={this.props.decks}
           renderItem={({ item }) => (
-            <TopDeck deck={item} />
+            <TopDeck deck={item} navigation={navigation}/>
           )}
           >
         </FlatList>
@@ -48,7 +54,7 @@ class DeckList extends Component {
 const styles = StyleSheet.create({
   deck: {
     flexDirection: 'row',
-    marginTop: 12
+    marginTop: 10
   }
 })
 
